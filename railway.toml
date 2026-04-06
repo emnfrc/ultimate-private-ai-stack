@@ -1,0 +1,11 @@
+# =============================================================================
+# Railway Template Configuration - Ollama + Open WebUI
+# This file is used by Railway for project-level settings
+# =============================================================================
+
+[build]
+builder = "DOCKERFILE"
+
+[deploy]
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5
