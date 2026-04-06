@@ -1,7 +1,66 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile"
   },
-  "deploy": {}
+  "deploy": {
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 5
+  },
+  "services": {
+    "ollama": {
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "Dockerfile"
+      },
+      "deploy": {
+        "healthcheckPath": "/api/tags",
+        "healthcheckTimeout": 300,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 5
+      },
+      "rootDirectory": "ollama",
+      "variables": {
+        "OLLAMA_HOST": "0.0.0.0",
+        "OLLAMA_PORT": "11434",
+        "OLLAMA_KEEP_ALIVE": "5m",
+        "OLLAMA_PRELOAD_MODEL": "",
+        "OLLAMA_NUM_PARALLEL": "1",
+        "OLLAMA_MAX_LOADED_MODELS": "1"
+      },
+      "volumes": {
+        "ollama_models": {
+          "mountPath": "/root/.ollama"
+        }
+      }
+    },
+    "open-webui": {
+      "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "Dockerfile"
+      },
+      "deploy": {
+        "healthcheckPath": "/health",
+        "healthcheckTimeout": 300,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 5
+      },
+      "rootDirectory": "open-webui",
+      "variables": {
+        "OLLAMA_BASE_URL": "http://ollama.railway.internal:11434",
+        "PORT": "8080",
+        "WEBUI_AUTH": "true",
+        "WEBUI_SECRET_KEY": "change-me-to-a-random-secret",
+        "ENABLE_SIGNUP": "true",
+        "WEBUI_NAME": "AI Private Hub",
+        "DEFAULT_MODELS": ""
+      },
+      "volumes": {
+        "webui_data": {
+          "mountPath": "/app/backend/data"
+        }
+      }
+    }
+  }
 }
