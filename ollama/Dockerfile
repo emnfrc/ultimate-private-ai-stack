@@ -18,9 +18,6 @@ EXPOSE ${OLLAMA_PORT}
 # Create the persistent volume directory
 RUN mkdir -p /root/.ollama/models
 
-# Volume for persistent model storage
-VOLUME ["/root/.ollama"]
-
 # Copy and set up the entrypoint script
 COPY start.sh /start.sh
 RUN chmod +x /start.sh

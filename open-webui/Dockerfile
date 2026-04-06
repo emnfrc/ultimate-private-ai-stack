@@ -15,9 +15,6 @@ ENV ENABLE_SIGNUP=true
 ENV DEFAULT_MODELS=""
 ENV WEBUI_NAME="AI Private Hub"
 
-# Data persistence for user configs, chat history, etc.
-VOLUME ["/app/backend/data"]
-
 # Expose the web UI port
 EXPOSE ${PORT}
 
