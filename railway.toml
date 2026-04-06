@@ -1,11 +1,11 @@
 # =============================================================================
-# Railway Template Configuration - Ollama + Open WebUI
-# This file is used by Railway for project-level settings
+# Railway Template - Ollama + Open WebUI (Monorepo)
 # =============================================================================
-
-[build]
-builder = "DOCKERFILE"
-
-[deploy]
-restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 5
+# This is a multi-service project. Each service has its own config:
+#   - ollama/railway.toml       → Ollama LLM backend
+#   - open-webui/railway.toml   → Open WebUI frontend
+#
+# In Railway dashboard, create two services and set Root Directory:
+#   Service 1: Root Directory = "ollama"
+#   Service 2: Root Directory = "open-webui"
+# =============================================================================
