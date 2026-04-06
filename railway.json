@@ -1,26 +1,18 @@
 {
-  "$schema": "https://railway.com/railway.schema.json",
-  "build": {
-    "builder": "DOCKERFILE",
-    "dockerfilePath": "Dockerfile"
-  },
-  "deploy": {
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 5
-  },
+  "$schema": "https://railway.app/railway.schema.json",
+  "name": "Ultimate Private AI Stack",
+  "description": "Déployez votre propre ChatGPT privé avec Ollama et Open WebUI en un clic.",
+  "icon": "https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/ollama.png",
   "services": {
     "ollama": {
-      "build": {
-        "builder": "DOCKERFILE",
-        "dockerfilePath": "Dockerfile"
-      },
+      "source": "ollama",
+      "dockerfile": "Dockerfile",
       "deploy": {
         "healthcheckPath": "/api/tags",
         "healthcheckTimeout": 300,
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 5
       },
-      "rootDirectory": "ollama",
       "variables": {
         "OLLAMA_HOST": "0.0.0.0",
         "OLLAMA_PORT": "11434",
@@ -36,19 +28,16 @@
       }
     },
     "open-webui": {
-      "build": {
-        "builder": "DOCKERFILE",
-        "dockerfilePath": "Dockerfile"
-      },
+      "source": "open-webui",
+      "dockerfile": "Dockerfile",
       "deploy": {
         "healthcheckPath": "/health",
         "healthcheckTimeout": 300,
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 5
       },
-      "rootDirectory": "open-webui",
       "variables": {
-        "OLLAMA_BASE_URL": "http://ollama.railway.internal:11434",
+        "OLLAMA_BASE_URL": "http://ollama:11434",
         "PORT": "8080",
         "WEBUI_AUTH": "true",
         "WEBUI_SECRET_KEY": "change-me-to-a-random-secret",
